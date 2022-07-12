@@ -5,8 +5,8 @@ import categoriesReducer from './categories/categories';
 const initialState = {
   books: [{
     id: 1,
-    title: 'Il Principe',
-    author: 'Machiavelli',
+    title: 'Things fall apart ',
+    author: 'Chinua Achebe',
   }],
 };
 

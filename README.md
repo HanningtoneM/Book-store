@@ -8,9 +8,7 @@ The functionalities are:
 
 > Using HTML, CSS, JavaScript and react
 
-## Live Demo
 
-[Live Demo Link]()
 
 ## Available Scripts
 
@@ -58,7 +56,7 @@ To get a local copy up follow these simple example steps.
 
 Template from this [MICROVERSE](https://www.microverse.org/)
 
-## Contributers
+##  contributing
 
 ## Show your support
 

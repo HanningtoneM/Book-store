@@ -1,16 +1,24 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
-import Home from './components/Home';
+import {
+  Routes,
+  Route,
+} from 'react-router-dom';
+import './App.css';
+import BooksList from './components/BooksList';
 import Categories from './components/Categories';
+import Header from './components/Header';
 
-const App = () => (
-  <BrowserRouter>
-    <Header />
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/categories" element={<Categories />} />
-    </Routes>
-  </BrowserRouter>
-);
+function App() {
+  return (
+    <>
+      <Header />
+      <main>
+        <Routes>
+          <Route path="/" element={<BooksList />} />
+          <Route path="/categories" element={<Categories />} />
+        </Routes>
+      </main>
+    </>
+  );
+}
 
 export default App;

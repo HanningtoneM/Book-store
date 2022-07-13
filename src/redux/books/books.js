@@ -1,71 +1,60 @@
-const ADD_BOOK = 'ADD_BOOK';
-const REMOVE_BOOK = 'REMOVE_BOOK';
-const baseURL = 'https://us-central1-bookstore-api-e63c8.cloudfunctions.net/bookstoreApi';
-const appID = 'fdMNYF46V8PIudYJJyEs';
+const baseURL = 'https://us-central1-bookstore-api-e63c8.cloudfunctions.net/bookstoreApi/apps/nMWZZtZEdxayLPUa3YWX/books';
 
-const initialState = [];
+// Actions
+const ADD_BOOK = 'bookstore/booksReducer/ADD_BOOK';
+const REMOVE_BOOK = 'bookstore/booksReducer/REMOVE_BOOK';
+const DISPLAY_BOOKS = 'bookstore/booksReducer/DISPLAY_BOOKS';
 
-export const addBook = (payload) => ({
-  type: ADD_BOOK,
-  payload,
-});
+// Reducer
+export default function booksReducer(state = [], action = {}) {
+  switch (action.type) {
+    case DISPLAY_BOOKS:
+      return action.payload;
+    case ADD_BOOK:
+      return [...state, action.payload];
+    case REMOVE_BOOK:
+      return [...state.filter((book) => (book.id !== action.payload))];
+    default: return state;
+  }
+}
 
-export const removeBook = (payload) => ({
-  type: REMOVE_BOOK,
-  payload,
-});
-
-export const addBookToAPI = (newBook) => async (dispatch) => {
-  dispatch(addBook(newBook));
-  await fetch(`${baseURL}/apps/${appID}/books`, {
+// Action Creators
+const addBook = (book) => async (dispatch) => {
+  await fetch(baseURL, {
     method: 'POST',
-    body: JSON.stringify({
-      item_id: newBook.item_id,
-      title: newBook.title,
-      author: newBook.author,
-      category: newBook.category,
-    }),
-    headers: { 'Content-type': 'application/JSON' },
-  });
+    body: JSON.stringify(book),
+    headers: {
+      'Content-type': 'application/json; charset=UTF-8',
+    },
+  })
+    .then(() => dispatch({ type: ADD_BOOK, payload: book }));
 };
 
-export const getBooksFromAPI = () => async (dispatch) => {
-  await fetch(`${baseURL}/apps/${appID}/books`)
-    .then((response) => response.json())
-    .then((bookList) => {
-      const arrangedList = Object.entries(bookList).map(([key, value]) => ({
-        item_id: key,
-        title: value[0].title,
-        author: value[0].author,
-        category: value[0].category,
-      }));
-      if (arrangedList) {
-        dispatch(addBook(arrangedList));
-      }
+const displayBooks = () => async (dispatch) => {
+  await fetch(baseURL)
+    .then((res) => res.json())
+    .then((books) => {
+      const booksArray = [];
+      Object.keys(books).forEach((key) => {
+        booksArray.push({
+          item_id: key,
+          author: books[key][0].author,
+          title: books[key][0].title,
+          category: books[key][0].category,
+        });
+      });
+      dispatch({ type: DISPLAY_BOOKS, payload: booksArray });
     });
 };
 
-export const removeBookFromAPI = (itemId) => async (dispatch) => {
-  dispatch(removeBook(itemId));
-  await fetch(`${baseURL}/apps/${appID}/books/${itemId}`, {
+const removeBook = (bookID) => async (dispatch) => {
+  await fetch(`${baseURL}/${bookID}`, {
     method: 'DELETE',
-    body: JSON.stringify({ item_id: itemId }),
-    headers: { 'Content-type': 'application/JSON' },
-  });
+    headers: {
+      'Content-type': 'application/json; charset=UTF-8',
+    },
+  })
+    .then(() => dispatch({ type: REMOVE_BOOK, payload: bookID }));
 };
 
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case ADD_BOOK:
-      if (Array.isArray(action.payload)) {
-        return [...action.payload];
-      }
-      return [...state, action.payload];
-    case REMOVE_BOOK:
-      return state.filter((book) => book.item_id !== action.payload);
-    default:
-      return state;
-  }
-};
-
-export default reducer;
+export { addBook, displayBooks, removeBook };

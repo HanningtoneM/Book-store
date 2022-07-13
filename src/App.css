@@ -13,32 +13,34 @@ body {
   background-color: #fafafa;
 }
 
-header {
-  position: fixed;
-  top: 0;
+.my-nav {
   display: flex;
-  width: 100vw;
-  height: 60px;
   justify-content: flex-start;
+  padding: 2rem 7rem;
   align-items: center;
-  box-sizing: border-box;
-  padding-left: 6.25rem;
-  background-color: #fff;
-  z-index: 3;
+  gap: 2rem;
 }
 
-header h1 {
-  margin: 0;
-  margin-right: 3rem;
-  color: var(--primary-color);
-  font-size: 1.875rem;
-}
-
-.nav-link {
-  font-size: 0.9rem;
-  margin-right: 2.563rem;
+.my-logo {
   text-decoration: none;
-  letter-spacing: 1.9px;
+  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: 1.825rem;
+  color: #0290ff;
+}
+
+.my-link {
+  padding: 0.5rem;
+  text-decoration: none;
+  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-weight: normal;
+  font-size: 0.813rem;
+  color: #121212;
+}
+
+.my-user {
+  margin-left: auto;
+  color: #0290ff;
 }
 
 main {
@@ -223,7 +225,7 @@ hr {
 }
 
 #form-container input {
-  width: 25%;
+  width: 20%;
   margin: 1.188rem 2.125rem 0 0;
   padding: 8px 15px;
   border-radius: 4px;
@@ -313,7 +315,7 @@ hr {
     display: none;
   }
 
-  .nav-link {
+  .my-link {
     font-size: 12px;
     margin-right: 15px;
   }
